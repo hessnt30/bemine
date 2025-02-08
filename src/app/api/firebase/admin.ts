@@ -1,6 +1,6 @@
 // src/firebase/firebaseAdmin.ts
 import admin from "firebase-admin";
-import { serviceAccount } from "@/app/api/firebase/bemine-2fe8b-firebase-adminsdk-fbsvc-6333a75099";
+import { serviceAccount } from "@/app/api/firebase/firebase-adminsdk";
 // import { serviceAccount } from "./screenshotthis-bb478-firebase-adminsdk-fbsvc-86036c6225";
 
 if (!admin.apps.length) {
