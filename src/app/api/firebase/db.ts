@@ -128,6 +128,8 @@ export const handleDeleteImage = async (secure_url: string) => {
       timestamp: timestamp,
     });
 
+    console.log(response);
+
     // console.error(response);
   } catch (error) {
     console.error(error);

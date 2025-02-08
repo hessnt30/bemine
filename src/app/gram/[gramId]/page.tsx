@@ -46,7 +46,7 @@ export default function GramPage() {
             Hey, {gram.recipient}!
           </p>
           <p className="text-xl leading-none pb-4">
-            You have a special Valentine's Gram from {gram.sender}!
+            You have a special Valentine&apos;s Gram from {gram.sender}!
           </p>
 
           {/* Animated Gram Container */}

@@ -139,7 +139,9 @@ export default function CreatePage() {
 
   return (
     <div>
-      <p className="text-3xl font-semibold mb-4">Create a Valentine's Gram!</p>
+      <p className="text-3xl font-semibold mb-4">
+        Create a Valentine&apos;s Gram!
+      </p>
 
       <Label>Preview</Label>
       {resource?.secure_url && (
@@ -174,6 +176,7 @@ export default function CreatePage() {
         <CldUploadWidget
           signatureEndpoint="/api/sign-cloudinary-params"
           onSuccess={(result, { widget }) => {
+            console.log(widget);
             if (result?.info) {
               console.log(result?.info);
               const resultInfo = result?.info as unknown as ImageUploadResource;
@@ -183,6 +186,7 @@ export default function CreatePage() {
             }
           }}
           onQueuesEnd={(result, { widget }) => {
+            console.log(result);
             widget.close();
           }}
         >

@@ -18,11 +18,11 @@ export default function Home() {
       {/* Header Section */}
       <header className="text-center py-8 sm:py-12 px-6 md:px-12 max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-shadow">
-          Create Unforgettable Valentine's Grams
+          Create Unforgettable Valentine&apos;s Grams
         </h1>
         <p className="text-base sm:text-lg md:text-xl mb-6 text-opacity-90">
-          Surprise your loved ones with personalized Valentine&rsquo;s Day
-          grams. Simple, fun, and meaningful.
+          Surprise your loved ones with personalized Valentine&apos;s Day grams.
+          Simple, fun, and meaningful.
         </p>
 
         {/* Image */}
@@ -69,8 +69,8 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-semibold mb-2">Easy Sharing</h3>
             <p className="text-lg text-opacity-80">
-              Share your gram with a simple link. It's quick and easy for anyone
-              to enjoy.
+              Share your gram with a simple link. It&apos;s quick and easy for
+              anyone to enjoy.
             </p>
           </div>
 
