@@ -8,7 +8,7 @@ import { ImageUploadResource, NewGram } from "@/types";
 import { Copy, Dice1, Dices, PlusCircle } from "lucide-react";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
-import { addGram } from "../api/firebase/db";
+import { addGram, handleDeleteImage } from "../api/firebase/db";
 import { toast } from "sonner";
 
 const resources = [
@@ -67,6 +67,7 @@ export default function CreatePage() {
   const [resource, setResource] = useState<ImageUploadResource | undefined>(
     resources[0]
   );
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
   const [recipient, setRecipient] = useState<string>("");
   const [sender, setSender] = useState<string>("");
@@ -86,6 +87,11 @@ export default function CreatePage() {
 
     const newGramId = await addGram(newGram);
     setGramId(newGramId);
+
+    // Remove used image from tracking list
+    setUploadedImages((prev) =>
+      prev.filter((img) => img !== resource?.secure_url)
+    );
   };
 
   const randomMessage = () => {
@@ -94,7 +100,7 @@ export default function CreatePage() {
 
   const copyToClipboard = async () => {
     try {
-      const inputText = `localhost:3000/${gramId}`;
+      const inputText = `localhost:3000/gram/${gramId}`;
       await navigator.clipboard.writeText(inputText);
       toast("Link Copied", {
         description: "Send the link to your recipient!",
@@ -108,6 +114,28 @@ export default function CreatePage() {
   useEffect(() => {
     setIsLoading(false);
   }, [gramId]);
+
+  useEffect(() => {
+    // Cleanup function to delete images that weren't used in the new gram
+    const deleteUnusedImages = async () => {
+      const unusedImages = uploadedImages.filter(
+        (img) => img !== resource?.secure_url
+      ); // Filter out the image that is used for the new gram
+
+      for (const imageUrl of unusedImages) {
+        try {
+          await handleDeleteImage(imageUrl);
+        } catch (error) {
+          console.error("Error deleting image:", error);
+        }
+      }
+    };
+
+    // Only delete images when `gramId` is set (i.e., the gram is created)
+    if (gramId) {
+      deleteUnusedImages();
+    }
+  }, [gramId, uploadedImages, resource?.secure_url]);
 
   return (
     <div>
@@ -146,8 +174,13 @@ export default function CreatePage() {
         <CldUploadWidget
           signatureEndpoint="/api/sign-cloudinary-params"
           onSuccess={(result, { widget }) => {
-            console.log(result?.info);
-            setResource(result?.info as unknown as ImageUploadResource); // { public_id, secure_url, etc }
+            if (result?.info) {
+              console.log(result?.info);
+              const resultInfo = result?.info as unknown as ImageUploadResource;
+              if (!resultInfo.secure_url) return;
+              setResource(resultInfo); // { public_id, secure_url, etc }
+              setUploadedImages((prev) => [...prev, resultInfo.secure_url!]); // Track uploaded image
+            }
           }}
           onQueuesEnd={(result, { widget }) => {
             widget.close();
@@ -226,7 +259,7 @@ export default function CreatePage() {
             <Button
               disabled={!message || !recipient || !sender}
               onClick={handleCreateClicked}
-              className="bg-gradient-to-r from-pink-500 via-red-500 to-purple-600"
+              className="bg-gradient-to-r from-pink-500 via-red-500 to-purple-600 text-white"
             >
               Create
             </Button>
@@ -239,7 +272,11 @@ export default function CreatePage() {
           <Label>Share your gram!</Label>
 
           <div className="flex gap-2">
-            <Input type="text" value={`localhost:3000/${gramId}`} readOnly />
+            <Input
+              type="text"
+              value={`localhost:3000/gram/${gramId}`}
+              readOnly
+            />
             <Button onClick={copyToClipboard}>
               <Copy />
             </Button>

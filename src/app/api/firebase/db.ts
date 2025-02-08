@@ -7,33 +7,30 @@ import crypto from "crypto";
 import admin from "firebase-admin";
 
 /**
- * Get a gram by UUID (User ID)
- * @param gramId user id of the desired user
- * @returns array of UserPostsResponses or empty
+ * Get a gram by gramId
+ * @param gramId UID of the desired gram
+ * @returns a single GramResponse or undefined
  */
-export const getGram = async (gramId: string): Promise<GramResponse[]> => {
+export const getGram = async (
+  gramId: string
+): Promise<GramResponse | undefined> => {
   try {
-    const querySnapshot = await db
-      .collection("grams")
-      .where("userId", "==", gramId)
-      .get();
+    const docRef = db.collection("grams").doc(gramId);
+    const doc = await docRef.get();
 
-    const posts: GramResponse[] = querySnapshot.docs.map((doc) => {
-      const data = doc.data();
+    if (!doc.exists) {
+      return undefined; // No gram found
+    }
 
-      // Convert Firestore Timestamp to Date object
-      const createdAt = data.createdAt ? data.createdAt.toDate() : null;
+    const data = doc.data();
 
-      return {
-        postId: doc.id,
-        ...data,
-      } as GramResponse;
-    });
-
-    return posts;
+    return {
+      postId: doc.id,
+      ...data,
+    } as GramResponse;
   } catch (error) {
-    console.error("Error fetching user posts:", error);
-    return []; // Return empty array in case of failure
+    console.error("Error fetching gram:", error);
+    return undefined;
   }
 };
 
@@ -105,7 +102,7 @@ const generateSignature = (publicId: string, apiSecret: string) => {
  * @param secure_url the url of the image to be deleted
  * @returns void
  */
-const handleDeleteImage = async (secure_url: string) => {
+export const handleDeleteImage = async (secure_url: string) => {
   const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
   const getPublicIdFromUrl = (url: string) => {
     const match = url.match(regex);
@@ -124,6 +121,7 @@ const handleDeleteImage = async (secure_url: string) => {
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
 
   try {
+    console.log("deleting image", publicId);
     const response = await axios.post(url, {
       public_id: publicId,
       signature: signature,
