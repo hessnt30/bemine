@@ -1,5 +1,6 @@
 "use client";
 
+import { color } from "framer-motion";
 import { Heart } from "lucide-react";
 import { CldImage } from "next-cloudinary";
 import { CSSProperties, useEffect, useState } from "react";
@@ -56,6 +57,7 @@ export default function PreviewGram({
           size={heart.size} // Each heart gets a unique size
           className="absolute"
           style={heart.style} // Each heart gets unique positioning and rotation
+          color={heartColors[Math.floor(Math.random() * heartColors.length)]}
         />
       ))}
 
