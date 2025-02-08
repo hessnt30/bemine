@@ -100,7 +100,7 @@ export default function CreatePage() {
 
   const copyToClipboard = async () => {
     try {
-      const inputText = `localhost:3000/gram/${gramId}`;
+      const inputText = `https://bemine-pied.vercel.app/gram/${gramId}`;
       await navigator.clipboard.writeText(inputText);
       toast("Link Copied", {
         description: "Send the link to your recipient!",
@@ -278,7 +278,7 @@ export default function CreatePage() {
           <div className="flex gap-2">
             <Input
               type="text"
-              value={`localhost:3000/gram/${gramId}`}
+              value={`https://bemine-pied.vercel.app/${gramId}`}
               readOnly
             />
             <Button onClick={copyToClipboard}>
