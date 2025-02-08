@@ -15,7 +15,7 @@ export default function Header() {
           <div className="flex flex-col justify-center">
             <h1 className="text-3xl font-bold text-white font-serif">BeMine</h1>
             <p className="text-white text-sm leading-none ">
-              Create a Valentine's Gram!
+              Create a Valentine&rsquo;s Gram!
             </p>
           </div>
         </div>

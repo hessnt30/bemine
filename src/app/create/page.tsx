@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ImageUploadResource, NewGram } from "@/types";
-import { Copy, Dice1, Dices, PlusCircle } from "lucide-react";
+import { Copy, Dices, PlusCircle } from "lucide-react";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { addGram, handleDeleteImage } from "../api/firebase/db";

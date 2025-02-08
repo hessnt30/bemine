@@ -4,7 +4,6 @@ import { db } from "@/app/api/firebase/admin";
 import { GramResponse, NewGram } from "@/types";
 import axios from "axios";
 import crypto from "crypto";
-import admin from "firebase-admin";
 
 /**
  * Get a gram by gramId

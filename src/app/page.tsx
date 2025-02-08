@@ -21,8 +21,8 @@ export default function Home() {
           Create Unforgettable Valentine's Grams
         </h1>
         <p className="text-base sm:text-lg md:text-xl mb-6 text-opacity-90">
-          Surprise your loved ones with personalized Valentine’s Day grams.
-          Simple, fun, and meaningful.
+          Surprise your loved ones with personalized Valentine&rsquo;s Day
+          grams. Simple, fun, and meaningful.
         </p>
 
         {/* Image */}
