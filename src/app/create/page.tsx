@@ -278,7 +278,7 @@ export default function CreatePage() {
           <div className="flex gap-2">
             <Input
               type="text"
-              value={`https://bemine-pied.vercel.app/${gramId}`}
+              value={`https://bemine-pied.vercel.app/gram/${gramId}`}
               readOnly
             />
             <Button onClick={copyToClipboard}>
