@@ -138,7 +138,7 @@ export default function CreatePage() {
   }, [gramId, uploadedImages, resource?.secure_url]);
 
   return (
-    <div>
+    <div className="p-6">
       <p className="text-3xl font-semibold mb-4">
         Create a Valentine&apos;s Gram!
       </p>
